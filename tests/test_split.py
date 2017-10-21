@@ -4,9 +4,9 @@ from langsplit.splitter import split
 
 
 def test_title():
-    text = '.:en:hello world.:lt:smart world.:ja:今日は、世界'
+    text = '.:en:new world.:lt:smart world.:ja:今日は、世界'
     expect = collections.OrderedDict(
-        [('en', 'hello world'),
+        [('en', 'new world'),
          ('lt', 'smart world'),
          ('ja', '今日は、世界')]
     )

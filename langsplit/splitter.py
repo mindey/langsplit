@@ -12,6 +12,18 @@ def detect_language(text, max_length=2):
     short_code = SHORTER_CODES.get(code) if len(code) > max_length else code
     return short_code[:max_length]
 
+def convert(LanguagesDict, sep='.:', ends=['\n', ':'], title=False):
+    text_md = ''
+
+    for lang in LanguagesDict.keys():
+        text_md += '{sep}{lang}{end}{text}'.format(
+            sep = sep,
+            lang = lang,
+            end = ends[0] if not title else ends[1],
+            text = LanguagesDict[lang],
+        )
+    return text_md.strip()
+
 def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
           autodetect=True, pargraph_sep='\n\n', markdown=False, title=False):
     """
@@ -80,17 +92,6 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
 
 
     if markdown:
-
-        text_md = ''
-
-        for lang in lang_seq:
-            text_md += '{sep}{lang}{end}{text}'.format(
-                sep = sep,
-                lang = lang,
-                end = ends[0] if not title else ends[1],
-                text = result[lang],
-            )
-
-        return text_md.strip()
+        return convert(result, sep=sep, ends=ends, title=title)
 
     return result

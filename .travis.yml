@@ -1,6 +1,6 @@
 language: python
 python:
   - "3.6"
-install: "pip install langdetect pytest"
+install: "pip install ."
 script: pytest
 sudo: required

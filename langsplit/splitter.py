@@ -87,7 +87,8 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
 
                     except Exception as e:
                         # Alternatively, we could assign it to None key.
-                        logger.info('No language data, skipping {}'.format(paragraph))
+                        name[settings.UNKNOWN_LANGUAGE] += paragraph
+                        logger.info('Language not detected: {}'.format(paragraph))
 
                     if i < number_of_paragraphs - 1:
                         result[name] += pargraph_sep

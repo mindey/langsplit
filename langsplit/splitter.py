@@ -2,8 +2,11 @@ import os
 import collections
 import logging
 
+import langdetect
+
 class Settings:
     LOGGING_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    UNKNOWN_LANGUAGE = 'xx'
 
 settings = Settings()
 
@@ -12,8 +15,6 @@ logging.basicConfig(
     level = logging.INFO
 )
 logger = logging.getLogger(__name__)
-
-import langdetect
 
 LANGUAGE_CODES = os.listdir(langdetect.PROFILES_DIRECTORY)
 SHORTER_CODES = {'zh-cn': 'cn', 'zh-tw': 'zh'}
@@ -41,7 +42,8 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
     """
     Splits text by `sep`, and combines texts with same keys before `ends`,
     if they are not shorter/longer than `min_key_length` and `max_key_length`.
-    Assigns the rest of the parts to key called None. Returns a dict.
+    Assigns the rest of the parts to key called settings.UNKNOWN_LANGUAGE.
+    Returns a dict.
 
     Detects language if not present, treating each paragraph separately.
 
@@ -59,7 +61,7 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
         if not token:
             continue
 
-        name = None
+        name = settings.UNKNOWN_LANGUAGE
         chunk = token
 
         if len(token[:max_key_length+1]) == max_key_length+1:
@@ -70,7 +72,7 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
                 if min_key_length <= pos <= max_key_length:
                     name, chunk = token[:pos], token[pos+1:]
 
-        if not name:
+        if name == settings.UNKNOWN_LANGUAGE:
             if autodetect:
 
                 paragraphs = chunk.split(pargraph_sep)

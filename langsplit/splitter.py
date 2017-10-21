@@ -1,5 +1,17 @@
 import os
 import collections
+import logging
+
+class Settings:
+    LOGGING_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+settings = Settings()
+
+logging.basicConfig(
+    format = settings.LOGGING_FORMAT,
+    level = logging.INFO
+)
+logger = logging.getLogger(__name__)
 
 import langdetect
 
@@ -67,8 +79,13 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
                     if not paragraph:
                         continue
 
-                    name = detect_language(paragraph)
-                    result[name] += paragraph
+                    try:
+                        name = detect_language(paragraph)
+                        result[name] += paragraph
+
+                    except Exception as e:
+                        # Alternatively, we could assign it to None key.
+                        logger.info('No language data, skipping {}'.format(paragraph))
 
                     if i < number_of_paragraphs - 1:
                         result[name] += pargraph_sep

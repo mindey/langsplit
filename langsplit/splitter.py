@@ -25,6 +25,8 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
          Change 'markdown' to True to get result combined back to markdown.
          Pass title=True to convert to title version, using the ':' as end.
     """
+    if not text:
+        return text
 
     result = collections.defaultdict(str)
     lang_seq = []

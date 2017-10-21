@@ -3,6 +3,15 @@ import collections
 from langsplit.splitter import split
 
 
+def test_none():
+    text = None
+
+    expect = None
+
+    result = split(text)
+
+    assert(result == expect)
+
 def test_title():
     text = '.:en:new world.:lt:smart world.:ja:今日は、世界'
     expect = collections.OrderedDict(

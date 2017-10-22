@@ -7,6 +7,8 @@ import langdetect
 class Settings:
     LOGGING_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     UNKNOWN_LANGUAGE = 'xx'
+    SEP = '.:'
+    ENDS = ['\n', '\r', '\r\n', ':']
 
 
 settings = Settings()
@@ -26,7 +28,7 @@ def detect_language(text, max_length=2):
     short_code = SHORTER_CODES.get(code) if len(code) > max_length else code
     return short_code[:max_length]
 
-def convert(LanguagesDict, sep='.:', ends=['\n', '\r\n', ':'], title=False):
+def convert(LanguagesDict, sep=settings.SEP, ends=settings.ENDS, title=False):
     text_md = ''
 
     for lang in LanguagesDict.keys():
@@ -38,7 +40,7 @@ def convert(LanguagesDict, sep='.:', ends=['\n', '\r\n', ':'], title=False):
         )
     return text_md.strip()
 
-def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
+def split(text, sep=settings.SEP, ends=settings.ENDS, min_key_length=2, max_key_length=2,
           autodetect=True, pargraph_sep='\n\n', markdown=False, title=False):
     """
     Splits text by `sep`, and combines texts with same keys before `ends`,

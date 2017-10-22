@@ -35,9 +35,16 @@ def convert(LanguagesDict, sep=settings.SEP, ends=settings.ENDS, title=False):
         text_md += '{sep}{lang}{end}{text}'.format(
             sep = sep,
             lang = lang,
-            end = ends[-1] if title else ends[0],
+            end = ends[-1] if title else str(),
             text = LanguagesDict[lang],
         )
+
+    while text_md[:2] in ends:
+        text_md = text_md[2:]
+
+    while text_md[:1] in ends:
+        text_md = text_md[1:]
+
     return text_md.strip()
 
 def split(text, sep=settings.SEP, ends=settings.ENDS, min_key_length=2, max_key_length=2,

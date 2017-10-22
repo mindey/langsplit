@@ -26,7 +26,7 @@ def detect_language(text, max_length=2):
     short_code = SHORTER_CODES.get(code) if len(code) > max_length else code
     return short_code[:max_length]
 
-def convert(LanguagesDict, sep='.:', ends=['\n', ':'], title=False):
+def convert(LanguagesDict, sep='.:', ends=['\n', '\r', ':'], title=False):
     text_md = ''
 
     for lang in LanguagesDict.keys():

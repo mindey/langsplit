@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='langsplit',
-    version='0.0.9',
+    version='0.1.0',
     description='Splits text by separator, and limited length language names, combines split text chunks into OrderedDict, or combines back to text. Supposed for extending markdown with tags for human languages.',
     url='https://github.com/mindey/langsplit',
     author='Mindey',

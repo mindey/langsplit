@@ -31,18 +31,23 @@ def detect_language(text, max_length=2):
 def convert(LanguagesDict, sep=settings.SEP, ends=settings.ENDS, title=False):
     text_md = ''
 
-    for lang in LanguagesDict.keys():
-        text_md += '{sep}{lang}{end}{text}'.format(
-            sep = sep,
-            lang = lang,
-            end = ends[0] if not title else ends[-1],
-            text = LanguagesDict[lang],
-        )
+    if isinstance(LanguagesDict, dict):
 
-    while text_md[:2] in ends:
-        text_md = text_md[2:]
+        for lang in LanguagesDict.keys():
+            text_md += '{sep}{lang}{end}{text}'.format(
+                sep = sep,
+                lang = lang,
+                end = ends[0] if not title else ends[-1],
+                text = LanguagesDict[lang],
+            )
 
-    return text_md.strip()
+        while text_md[:2] in ends:
+            text_md = text_md[2:]
+
+        return text_md.strip()
+
+    else:
+        return LanguagesDict
 
 def split(text, sep=settings.SEP, ends=settings.ENDS, min_key_length=2, max_key_length=2,
           autodetect=True, pargraph_sep='\n\n', markdown=False, title=False):

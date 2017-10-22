@@ -152,3 +152,16 @@ This task was a bit tricky.'''
     assert(
         result == expect
     )
+
+
+def test_title_convert():
+
+    body = '''.:en:This task was a bit tricky.'''
+
+    expect = '''.:en:This task was a bit tricky.'''
+
+    result = splitter.convert(splitter.split(body), title=True)
+
+    assert(
+        result == expect
+    )

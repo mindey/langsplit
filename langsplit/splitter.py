@@ -26,7 +26,7 @@ def detect_language(text, max_length=2):
     short_code = SHORTER_CODES.get(code) if len(code) > max_length else code
     return short_code[:max_length]
 
-def convert(LanguagesDict, sep='.:', ends=['\n', '\r', ':'], title=False):
+def convert(LanguagesDict, sep='.:', ends=['\n', '\r\n', ':'], title=False):
     text_md = ''
 
     for lang in LanguagesDict.keys():
@@ -74,10 +74,6 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
                     name, chunk = token[:pos], token[pos+1:]
 
         if name is not settings.UNKNOWN_LANGUAGE:
-
-            if chunk[:len(name)+1] in [name+end for end in ends]:
-                # assuming all ends are of length 1
-                chunk = chunk[len(name)+1:]
 
             result[name] += chunk
 

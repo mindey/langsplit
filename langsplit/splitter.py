@@ -8,6 +8,7 @@ class Settings:
     LOGGING_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     UNKNOWN_LANGUAGE = 'xx'
 
+
 settings = Settings()
 
 logging.basicConfig(
@@ -72,6 +73,9 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
                 if min_key_length <= pos <= max_key_length:
                     name, chunk = token[:pos], token[pos+1:]
 
+                    if chunk[:len(name)+1] in [name+end for end in ends]:
+                        chunk = chunk[len(name)+1:]
+
         if name == settings.UNKNOWN_LANGUAGE:
             if autodetect:
 
@@ -86,7 +90,6 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
                         result[name] += paragraph
 
                     except Exception as e:
-                        # Alternatively, we could assign it to None key.
                         result[settings.UNKNOWN_LANGUAGE] += paragraph
                         logger.info('Language not detected: {}'.format(paragraph))
 
@@ -95,8 +98,9 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
 
                     if name not in lang_seq:
                         lang_seq.append(name)
+
             else:
-                result[name] += chunk 
+                result[name] += chunk
 
                 if name not in lang_seq:
                     lang_seq.append(name)

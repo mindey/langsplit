@@ -1,6 +1,7 @@
 import pytest
 import collections
-from langsplit.splitter import split
+from langsplit.splitter import split, convert
+from langsplit import splitter
 
 
 def test_none():
@@ -53,9 +54,9 @@ nieko sau, viskas gerai
     )
 
 def test_partial_autodetect():
-    text = 'hello world.:lt:smart world.:ja:今日は、世界'
+    text = 'amazing world.:lt:smart world.:ja:今日は、世界'
     expect = collections.OrderedDict(
-        [('en', 'hello world'),
+        [('en', 'amazing world'),
          ('lt', 'smart world'),
          ('ja', '今日は、世界')]
     )
@@ -133,6 +134,20 @@ def test_markdown_title():
     expect = '.:cn:世界，你好.:lt:Sveikas, Pasauli'
 
     result = split(text, markdown=True, title=True)
+
+    assert(
+        result == expect
+    )
+
+def test_convert():
+
+    body = '''.:en
+This task was a bit tricky.'''
+
+    expect = '''.:en
+This task was a bit tricky.'''
+
+    result = splitter.convert(splitter.split(body))
 
     assert(
         result == expect

@@ -34,11 +34,19 @@ def convert(LanguagesDict, sep=settings.SEP, ends=settings.ENDS, title=False):
     if isinstance(LanguagesDict, dict):
 
         for lang in LanguagesDict.keys():
+
+            text = LanguagesDict.get(lang)
+
+            if title:
+                end = ends[-1]
+            else:
+                end = ends[0]
+
             text_md += '{sep}{lang}{end}{text}'.format(
                 sep = sep,
                 lang = lang,
-                end = ends[0] if not title else ends[-1],
-                text = LanguagesDict[lang],
+                end = end,
+                text = text.lstrip(),
             )
 
         while text_md[:2] in ends:

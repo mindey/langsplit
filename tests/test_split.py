@@ -165,3 +165,31 @@ def test_title_convert():
     assert(
         result == expect
     )
+
+
+def test_get_one():
+
+    text = '''.:cn
+中文也可以的
+
+.:en
+some text
+which is good
+
+so want to try
+
+.:ru
+несколько текста
+
+.:lt
+šienpjovys džemas'''
+
+    expect = '中文也可以的\n\n'
+
+    splitted = split(text)
+
+    result = splitted.get('cn')
+
+    assert(
+        result == expect
+    )

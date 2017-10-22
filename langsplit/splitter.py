@@ -73,10 +73,18 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
                 if min_key_length <= pos <= max_key_length:
                     name, chunk = token[:pos], token[pos+1:]
 
-                    if chunk[:len(name)+1] in [name+end for end in ends]:
-                        chunk = chunk[len(name)+1:]
+        if name is not settings.UNKNOWN_LANGUAGE:
 
-        if name == settings.UNKNOWN_LANGUAGE:
+            if chunk[:len(name)+1] in [name+end for end in ends]:
+                # assuming all ends are of length 1
+                chunk = chunk[len(name)+1:]
+
+            result[name] += chunk
+
+            if name not in lang_seq:
+                lang_seq.append(name)
+
+        else:
             if autodetect:
 
                 paragraphs = chunk.split(pargraph_sep)
@@ -100,15 +108,10 @@ def split(text, sep='.:', ends=['\n', ':'], min_key_length=2, max_key_length=2,
                         lang_seq.append(name)
 
             else:
-                result[name] += chunk
+                result[name] += chunk[len(name)+1:]
 
                 if name not in lang_seq:
                     lang_seq.append(name)
-        else:
-            result[name] += chunk
-
-            if name not in lang_seq:
-                lang_seq.append(name)
 
     result = collections.OrderedDict(
         [(lang, result[lang]) for lang in lang_seq]

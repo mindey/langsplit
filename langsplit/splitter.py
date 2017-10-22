@@ -35,7 +35,7 @@ def convert(LanguagesDict, sep=settings.SEP, ends=settings.ENDS, title=False):
         text_md += '{sep}{lang}{end}{text}'.format(
             sep = sep,
             lang = lang,
-            end = ends[-1] and title or '\n',
+            end = ends[0] if not title else ends[-1],
             text = LanguagesDict[lang],
         )
 

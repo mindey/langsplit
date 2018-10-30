@@ -193,3 +193,16 @@ so want to try
     assert(
         result == expect
     )
+
+
+def test_empty():
+
+    text = '''.:en'''
+
+    expect = collections.OrderedDict([('en', '')])
+
+    result = split(text)
+
+    assert(
+        result == expect
+    )

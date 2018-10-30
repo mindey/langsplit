@@ -67,12 +67,20 @@ def split(text, sep=settings.SEP, ends=settings.ENDS, min_key_length=2, max_key_
 
     Detects language if not present, treating each paragraph separately.
 
-    Tip: 
+    Tip:
          Change 'markdown' to True to get result combined back to markdown.
          Pass title=True to convert to title version, using the ':' as end.
     """
     if not text:
         return text
+    # Fix: exception, if provided something like '.:en' without end symbol:
+    elif len(text.split('\n')) == 1 \
+        and text.startswith(sep) \
+        and len(text) < len(sep)+max_key_length+min(
+            [len(end) for end in ends]):
+        return collections.OrderedDict(
+            [(text[len(sep):len(sep)+max_key_length],
+              text[len(sep)+max_key_length:])])
 
     result = collections.defaultdict(str)
     lang_seq = []

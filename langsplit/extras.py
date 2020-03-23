@@ -1,20 +1,26 @@
+# -*- coding: utf-8 -*-
 try:
     from urllib.request import Request, urlopen
 except ImportError:
     from urllib2 import Request, urlopen
 
-def translate(text_to_translate, to_language='auto', from_langage='auto'):
+try:
+    import requests
+except:
+    pass
+
+def translate(text_to_translate, to_language='auto', from_langage='auto', use_requests=False):
     # Credits: https://github.com/softvar/translatr/blob/master/app/__init__.py#L22
     agents = {'User-Agent':"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)"}
     before_trans = 'class="t0">'
     link = "http://translate.google.com/m?hl=%s&sl=%s&q=%s" % (to_language, from_langage, text_to_translate.replace(" ", "+"))
 
-    request = Request(link, headers=agents)
-    page = urlopen(request).read().decode('utf-8')
-
-    # import requests
-    # request = requests.get(link, headers=agents)
-    # page = request.text
+    if use_requests:
+        request = requests.get(link, headers=agents)
+        page = request.text
+    else:
+        request = Request(link, headers=agents)
+        page = urlopen(request).read().decode('utf-8')
 
     result = page[page.find(before_trans) + len(before_trans):]
     result = result.split("<")[0]
@@ -22,7 +28,7 @@ def translate(text_to_translate, to_language='auto', from_langage='auto'):
 
 from langsplit import splitter
 
-def append_machine_translations(text, langs, intext=False):
+def append_machine_translations(text, langs, intext=False, use_requests=False):
     ''' e.g.: langs = ['en', 'cn', 'lt'] '''
     split = splitter.split(text)
     olang = next(iter(split))
@@ -40,7 +46,7 @@ def append_machine_translations(text, langs, intext=False):
             glang = 'zh'
 
         if lang.upper() not in split:
-            split[lang.upper()] = translate(first, glang).replace('  ', '\n\n')
+            split[lang.upper()] = translate(first, glang, use_requests=use_requests).replace('  ', '\n\n')
             if intext:
                 split[lang.upper()] += '\n'
 
@@ -48,3 +54,4 @@ def append_machine_translations(text, langs, intext=False):
         return splitter.convert(split)
 
     return split
+

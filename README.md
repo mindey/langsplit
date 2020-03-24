@@ -45,7 +45,8 @@ Hello, World''', langs=['ru', 'cn', 'lt'], intext=True, use_requests=True)
 .:cn
 你好，世界
 .:en
-Hello, World.:RU
+Hello, World
+.:RU
 Привет мир 
 .:LT
 Sveikas pasaulis

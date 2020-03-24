@@ -20,11 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 LANGUAGE_CODES = os.listdir(langdetect.PROFILES_DIRECTORY)
-SHORTER_CODES = {
-    'zh-hans': 'cn',
-    'zh-hant': 'zh',
-    # define more of your own
-}
+SHORTER_CODES = {'zh-cn': 'cn', 'zh-tw': 'cn'}
 
 def detect_language(text, max_length=2):
     """ Make sure we return max_length[-letter] keys for languages"""

@@ -29,3 +29,14 @@ Hello, World''')
 original = splitter.convert(result)
 ```
 
+## Capital letters used for machine translations, e.g.:
+
+```python
+# pip install requests
+
+from langsplit.extras import append_machine_translations
+append_machine_translations('''.:cn
+你好，世界
+.:en
+Hello, World''', langs=['ru', 'cn', 'lt'], intext=True, use_requests=True)
+```

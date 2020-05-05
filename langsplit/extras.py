@@ -48,7 +48,7 @@ def append_machine_translations(text, langs, intext=False, use_requests=False, u
         if lang.upper() not in split or update_existing:
             split[lang.upper()] = translate(first, glang, use_requests=use_requests).replace('  ', '\n\n')
             if intext:
-                split[lang.upper()] += '\n'
+                split[lang.upper()] = split[lang.upper()].strip() + '\n\n'
 
     if intext:
         return splitter.convert(split)

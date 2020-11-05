@@ -24,6 +24,13 @@ def translate(text_to_translate, to_language='auto', from_langage='auto', use_re
 
     result = page[page.find(before_trans) + len(before_trans):]
     result = result.split("<")[0]
+
+    if result == 'html>':
+        if '<div class="result-container">' in page:
+            result = page.split('<div class="result-container">', 1)[-1].split('</div>')[0]
+        else:
+            result = None
+
     return result
 
 from langsplit import splitter
@@ -46,9 +53,11 @@ def append_machine_translations(text, langs, intext=False, use_requests=False, u
             glang = 'zh'
 
         if lang.upper() not in split or update_existing:
-            split[lang.upper()] = translate(first, glang, use_requests=use_requests).replace('  ', '\n\n')
-            if intext:
-                split[lang.upper()] = split[lang.upper()].strip() + '\n\n'
+            translation = translate(first, glang, use_requests=use_requests)
+            if translation is not None:
+                split[lang.upper()] = translation.replace('  ', '\n\n')
+                if intext:
+                    split[lang.upper()] = split[lang.upper()].strip() + '\n\n'
 
     if intext:
         return splitter.convert(split)

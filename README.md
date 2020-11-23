@@ -47,7 +47,23 @@ Hello, World''', langs=['ru', 'cn', 'lt'], intext=True, use_requests=True)
 .:en
 Hello, World
 .:RU
-Привет мир 
+Привет мир
 .:LT
 Sveikas pasaulis
+```
+
+## If you want, you can post-process transaltions, e.g.:
+
+```python
+from langsplit import extras
+
+def post_process(value, lang):
+    return value + '123'
+
+extras.post_translate = post_process
+
+extras.append_machine_translations('''.:cn
+你好，世界
+.:en
+Hello, World''', langs=['ru', 'cn', 'lt'], intext=True, use_requests=True)
 ```

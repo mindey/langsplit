@@ -35,7 +35,7 @@ def translate(text_to_translate, to_language='auto', from_langage='auto', use_re
 
 from langsplit import splitter
 
-def post_translate(value):
+def post_translate(value, lang=None):
     return value
 
 def append_machine_translations(text, langs, intext=False, use_requests=False, update_existing=False):
@@ -56,7 +56,7 @@ def append_machine_translations(text, langs, intext=False, use_requests=False, u
             glang = 'zh'
 
         if lang.upper() not in split or update_existing:
-            translation = post_translate(translate(first, glang, use_requests=use_requests))
+            translation = post_translate(translate(first, glang, use_requests=use_requests), lang)
             if translation is not None:
                 split[lang.upper()] = translation.replace('  ', '\n\n')
                 if intext:

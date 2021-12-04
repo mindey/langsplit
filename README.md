@@ -1,6 +1,8 @@
 # langsplit
 [![Travis status](https://img.shields.io/travis/mindey/langsplit/master.svg?style=flat)](https://travis-ci.org/mindey/langsplit)
 
+NOTE: It merits having a JS browser extension to use this pattern in front-end of web applications, as asking everyone to support it natively.
+
 ## Inline translations
 
 ```
